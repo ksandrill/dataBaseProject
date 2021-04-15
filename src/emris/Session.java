@@ -4,18 +4,26 @@ import java.sql.*;
 import java.util.Locale;
 
 public class Session {
+    public Connection getConnection() {
+        return connection;
+    }
+
+    public void setConnection(Connection connection) {
+        this.connection = connection;
+    }
+
     private Connection connection = null;
-    private final String host = "localhost";
-    private final int    port = 1521       ;
-    private final String sid  = "XE"       ;
-        ;
-    private String url = String.format("jdbc:oracle:thin:@%s:%d:%s", host, port, sid);
+//    private final String host = "84.237.50.81";
+//    private final int    port = 1521       ;
+//    private final String sid  = "XE"       ;
+    private String url = null;
     public Session(){
 
     }
-    public void createConnection(String user,String pwd){
+    public void createConnection(String user,String pwd, String host, int port, String sid){
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver"); //Проверяем наличие JDBC драйвера для работы с БД
+            url = String.format("jdbc:oracle:thin:@%s:%d:%s", host, port, sid);
             Locale def_locale = Locale.getDefault();
             Locale.setDefault(Locale.ENGLISH);
             this.connection = DriverManager.getConnection(url,user,pwd);//соединениесБД
@@ -41,6 +49,7 @@ public class Session {
 
     public ResultSet executeQuery(String query) throws SQLException {
         Statement statement = connection.createStatement();
+
         return statement.executeQuery(query);
 
     }

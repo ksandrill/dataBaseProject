@@ -1,13 +1,21 @@
 package emris;
 
-import emris.frames.StartFrame;
 
+import java.sql.ResultSet;
 public class Main {
 
 
     public static void main(String[] args) throws Exception {
-        StartFrame startFrame = new StartFrame(600, 600);
-
+        AppFX.main(args);
+//    Session session = new Session();
+//    session.createConnection("18208_shshelokov","qwert098");
+//        ResultSet res = session.executeQuery("select count(*) from \"reader\"");
+//        int count = -1;
+//        while (res.next()) {
+//            count = res.getInt(1);
+//        }
+//        System.out.println(" number of records in publications table: " + count);
+//    session.closeConnection();
 
     }
 }
