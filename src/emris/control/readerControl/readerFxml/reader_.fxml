@@ -19,12 +19,13 @@
                <content>
                   <TableView fx:id="tableView" maxWidth="-Infinity" prefHeight="400.0" prefWidth="566.0">
                     <columns>
-                        <TableColumn fx:id="idColumn" prefWidth="75.0" text="id" />
-                      <TableColumn fx:id="nameColumn" prefWidth="84.0" text="Имя" />
-                        <TableColumn fx:id="surnameColumn" prefWidth="66.4000244140625" text="Фамилия" />
-                        <TableColumn fx:id="roleType" prefWidth="114.4000244140625" text="Род деятельности" />
-                        <TableColumn fx:id="lastVisit" prefWidth="115.199951171875" text="Последний визит" />
-                        <TableColumn fx:id="booksOnHands" prefWidth="108.0" text="Выданных книг" />
+                        <TableColumn fx:id="idColumn" minWidth="9.0" prefWidth="30.0" text="id" />
+                      <TableColumn fx:id="nameColumn" text="Имя" />
+                        <TableColumn fx:id="surnameColumn" prefWidth="82.0" text="Фамилия" />
+                        <TableColumn fx:id="roleType" prefWidth="112.0" text="Деятельность" />
+                        <TableColumn fx:id="lastVisit" prefWidth="115.0" text="Последний визит" />
+                        <TableColumn fx:id="booksOnHands" prefWidth="106.0" text="Выданных книг" />
+                        <TableColumn fx:id="library" prefWidth="106.0" text="Библиотека" />
                     </columns>
                   </TableView>
                </content>

@@ -2,16 +2,20 @@ package emris.control.librarianControl;
 
 import emris.control.ControllerHandler;
 import emris.control.tableInfo.Librarian;
-import emris.control.tableInfo.Reader;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -35,46 +39,44 @@ public class LibrarianController extends ControllerHandler implements Initializa
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         surnameColumn.setCellValueFactory(new PropertyValueFactory<>("surname"));
         libraryColumn.setCellValueFactory(new PropertyValueFactory<>("library"));
-//        ContextMenu cm = new ContextMenu();
-//        MenuItem mi1 = new MenuItem("удалить");
-//        mi1.setOnAction(event -> {
-//            Reader selectedReader = tableView.getSelectionModel().getSelectedItem();
-//            String deleteProcedure = "begin \"delete_reader\"(?); end;";
-//            try {
-//                CallableStatement cs = session.getConnection().prepareCall(deleteProcedure);
-//                cs.setString(1, Integer.toString(selectedReader.getId()));
-//                cs.executeUpdate();
-//
-//            } catch (SQLException throwables) {
-//                throwables.printStackTrace();
-//            }
-//            try {
-//                refresh_table();
-//            } catch (SQLException throwables) {
-//                throwables.printStackTrace();
-//            }
-//
-//
-//        });
-//        MenuItem mi2 = new MenuItem("показать лич инфо");
-//        MenuItem mi3 = new MenuItem("показать книж инфо");
-//        MenuItem mi4 = new MenuItem("отмена");
-//
-//        cm.getItems().add(mi1);
-//        cm.getItems().add(mi2);
-//        cm.getItems().add(mi3);
-//        cm.getItems().add(mi4);
-//
-//        tableView.addEventHandler(MouseEvent.MOUSE_CLICKED, t -> {
-//            if (t.getButton() == MouseButton.SECONDARY) {
-//                cm.show(tableView, t.getScreenX(), t.getScreenY());
-//            }
-//        });
+        ContextMenu cm = new ContextMenu();
+        MenuItem mi1 = new MenuItem("удалить");
+        mi1.setOnAction(event -> {
+            Librarian selectedLibrarian = tableView.getSelectionModel().getSelectedItem();
+            String deleteProcedure = "DELETE FROM   \"librarian\" WHERE \"librarian\".\"id\" = (?)";
+            try {
+                CallableStatement cs = session.getConnection().prepareCall(deleteProcedure);
+                cs.setString(1, Integer.toString(selectedLibrarian.getId()));
+                cs.executeUpdate();
+
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            try {
+                refreshTable();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+
+
+        });
+        MenuItem mi4 = new MenuItem("отмена");
+
+        cm.getItems().add(mi1);
+
+        cm.getItems().add(mi4);
+
+        tableView.addEventHandler(MouseEvent.MOUSE_CLICKED, t -> {
+            if (t.getButton() == MouseButton.SECONDARY) {
+                cm.show(tableView, t.getScreenX(), t.getScreenY());
+            }
+        });
 
     }
 
     @FXML
-    void addLibrarian() {
+    void addLibrarian() throws IOException {
+        changeScene("/emris/control/librarianControl/add_librarian.fxml");
 
     }
 

@@ -5,10 +5,7 @@ import emris.control.tableInfo.Reader;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -39,8 +36,8 @@ public class ReaderController extends ControllerHandler implements Initializable
     private TableColumn<Reader, Date> lastVisit;
     @FXML
     private TableColumn<Reader, Integer> booksOnHands;
-
     @FXML
+    private TableColumn<Reader, Integer> library;
 
 
     @Override
@@ -51,6 +48,7 @@ public class ReaderController extends ControllerHandler implements Initializable
         roleType.setCellValueFactory(new PropertyValueFactory<>("roleType"));
         lastVisit.setCellValueFactory(new PropertyValueFactory<>("lastVisitTime"));
         booksOnHands.setCellValueFactory(new PropertyValueFactory<>("booksOnHands"));
+        library.setCellValueFactory(new PropertyValueFactory<>("library"));
         ContextMenu cm = new ContextMenu();
         MenuItem mi1 = new MenuItem("удалить");
         mi1.setOnAction(event -> {
@@ -97,10 +95,10 @@ public class ReaderController extends ControllerHandler implements Initializable
 
     private void refresh_table() throws SQLException {
         ArrayList<Reader> auxList = new ArrayList<>();
-        ResultSet ret = session.executeQuery("select \"reader\".\"id\", \"reader\".\"name\",\"reader\".\"surname\",\"reader_role\".\"role\" from \"reader\",\"reader_role\"\n" +
-                "WHERE \"reader\".\"role_id\" = \"reader_role\".\"id\"");
+        ResultSet ret = session.executeQuery("select \"reader\".\"id\", \"reader\".\"name\",\"reader\".\"surname\",\"reader\".\"library_id\" ,\"reader_role\".\"role\", \"library\".\"name\" as lib_name from \"reader\",\"reader_role\",\"library\"\n" +
+                "WHERE \"reader\".\"role_id\" = \"reader_role\".\"id\" and \"reader\".\"library_id\" = \"library\".\"id\"");
         while (ret.next()) {
-            Reader reader = new Reader(ret.getInt("id"), ret.getString("name"), ret.getString("surname"), ret.getString("role"), null, 0);
+            Reader reader = new Reader(ret.getInt("id"), ret.getString("name"), ret.getString("surname"), ret.getString("role"), null, 0, ret.getString("lib_name"));
             ////System.out.println(reader.getId() + reader.getName() +  reader.getSurname() +  reader.getRoleType());
             auxList.add(reader);
 
@@ -113,7 +111,7 @@ public class ReaderController extends ControllerHandler implements Initializable
 
     @FXML
     void createBtn() throws IOException {
-        changeScene("/emris/control/readerControl/readerFxml/add_reader_1.fxml");
+        changeScene("/emris/control/readerControl/add_reader_1.fxml");
     }
 
     @FXML

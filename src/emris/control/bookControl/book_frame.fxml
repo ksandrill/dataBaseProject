@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emris.control.readerControl.ReaderController">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emris.control.bookControl.BookController">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
          <children>
@@ -20,8 +20,8 @@
                   <TableView fx:id="tableView" maxWidth="-Infinity" prefHeight="400.0" prefWidth="566.0">
                     <columns>
                         <TableColumn fx:id="idColumn" prefWidth="75.0" text="id" />
-                      <TableColumn fx:id="nameColumn" prefWidth="279.20001220703125" text="название" />
-                        <TableColumn fx:id="surnameColumn" prefWidth="211.99993896484375" text="Автор" />
+                      <TableColumn fx:id="nameColumn" prefWidth="307.0" text="название" />
+                        <TableColumn fx:id="onHandsColumn" prefWidth="179.0" text="в наличии" />
                     </columns>
                   </TableView>
                </content>
@@ -36,7 +36,7 @@
       <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
          <children>
             <Button mnemonicParsing="false" onAction="#refreshBtn" text="обновить" />
-            <Button mnemonicParsing="false" onAction="#createBtn" text="добавить " />
+            <Button mnemonicParsing="false" onAction="#addBtn" text="добавить " />
             <Button mnemonicParsing="false" onAction="#backBtn" text="назад" />
          </children>
          <padding>

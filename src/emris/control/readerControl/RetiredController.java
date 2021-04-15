@@ -20,7 +20,7 @@ public class RetiredController extends ReaderHandler {
             cs.setString(1, name);
             cs.setString(2, surname);
             cs.setDate(3, Date.valueOf(dataPicker.getValue()));
-            cs.setString(4, "Шукшинская");
+            cs.setString(4, library);
             cs.executeUpdate();
 
         } catch (SQLException throwables) {

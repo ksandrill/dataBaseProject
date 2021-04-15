@@ -25,7 +25,7 @@ public class SchoolarStudentController extends ReaderHandler {
             cs.setString(3, classNumber.getText());
             cs.setString(4, letter.getText());
             cs.setString(5, school.getText());
-            cs.setString(6, "Шукшинская");
+            cs.setString(6, library);
             cs.executeUpdate();
 
         } catch (SQLException throwables) {

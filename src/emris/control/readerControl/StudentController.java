@@ -32,7 +32,7 @@ public class StudentController extends ReaderHandler {
             cs.setString(4, department.getText());
             cs.setString(5, course.getText());
             cs.setString(6, group.getText());
-            cs.setString(7, "Шукшинская");
+            cs.setString(7, library);
             cs.executeUpdate();
 
         } catch (SQLException throwables) {

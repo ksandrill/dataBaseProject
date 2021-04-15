@@ -2,10 +2,12 @@ package emris.control.readerControl;
 
 import emris.Session;
 import emris.control.ControllerHandler;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -13,6 +15,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class AddReaderController extends ControllerHandler implements Initializable {
@@ -50,6 +55,22 @@ public class AddReaderController extends ControllerHandler implements Initializa
     @FXML
     RadioButton scholarR;
 
+    @FXML
+    ComboBox<String> libraryBox;
+
+    @FXML
+    void updateBox() throws SQLException {
+        ArrayList<String> auxList = new ArrayList<>();
+        ResultSet ret = session.executeQuery("select \"library\".\"name\" as lib_name from \"library\"");
+        while (ret.next()) {
+            auxList.add(ret.getString("lib_name"));
+        }
+        libraryBox.setItems(FXCollections.observableArrayList(auxList));
+
+
+    }
+
+
     String fxmlSource;
 
 
@@ -68,6 +89,7 @@ public class AddReaderController extends ControllerHandler implements Initializa
         readerTypeController.setStage(stage);
         readerTypeController.setName(name.getText());
         readerTypeController.setSurname(surname.getText());
+        readerTypeController.setLibrary(libraryBox.getSelectionModel().getSelectedItem());
         stage.setScene(scene);
         stage.show();
 

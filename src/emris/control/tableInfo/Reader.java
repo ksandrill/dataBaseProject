@@ -9,17 +9,28 @@ public class Reader {
     private String surname;
     private String roleType;
     private int booksOnHands;
+
+    public void setLibrary(String library) {
+        this.library = library;
+    }
+
+    public String getLibrary() {
+        return library;
+    }
+
+    private String library;
     public Reader(){
 
     }
 
-    public Reader(int id, String name, String surname, String roleType,Date lastVisitTime,int booksOnHands) {
+    public Reader(int id, String name, String surname, String roleType,Date lastVisitTime,int booksOnHands,String library) {
         this.id = id;
         this.lastVisitTime = lastVisitTime;
         this.name = name;
         this.surname = surname;
         this.roleType = roleType;
         this.booksOnHands = booksOnHands;
+        this.library = library;
     }
 
     public int getId() {

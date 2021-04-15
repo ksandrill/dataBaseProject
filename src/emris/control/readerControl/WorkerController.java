@@ -32,13 +32,13 @@ public class WorkerController extends ReaderHandler {
             cs.setString(1, name);
             cs.setString(2, surname);
             cs.setString(3, workplaceField.getText());
-            cs.setString(4, "Шукшинская");
+            cs.setString(4, library);
             cs.executeUpdate();
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-       returnToReader();
+        returnToReader();
 
 
     }

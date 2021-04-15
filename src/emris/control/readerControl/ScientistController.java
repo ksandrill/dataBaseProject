@@ -22,7 +22,7 @@ public class ScientistController extends ReaderHandler {
             cs.setString(2, surname);
             cs.setString(3, subject.getText());
             cs.setString(4, institution.getText());
-            cs.setString(5, "Шукшинская");
+            cs.setString(5, library);
             cs.executeUpdate();
 
         } catch (SQLException throwables) {
