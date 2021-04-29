@@ -22,7 +22,7 @@ public class AddLibraryController extends ControllerHandler {
             cs.setString(1, name.getText());
             cs.setString(2, addr.getText());
             cs.executeUpdate();
-            changeScene("/emris/control/librarianControl/library_frame.fxml");
+            changeScene("/emris/control/libraryControl/library_frame.fxml");
 
         } catch (SQLException | IOException throwables) {
             throwables.printStackTrace();
@@ -34,7 +34,7 @@ public class AddLibraryController extends ControllerHandler {
 
     @FXML
     void cancelBtn() throws IOException {
-        changeScene("/emris/control/libraryControl/LibraryController.java");
+        changeScene("/emris/control/libraryControl/library_frame.fxml");
 
 
     }

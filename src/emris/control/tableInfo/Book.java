@@ -3,12 +3,13 @@ package emris.control.tableInfo;
 public class Book {
     int id;
     String name;
-    boolean onHands;
+    String type;
 
-    public Book(int id, String name, boolean onHands) {
+
+    public Book(int id, String name, String type) {
         this.id = id;
         this.name = name;
-        this.onHands = onHands;
+        this.type = type;
     }
 
     public int getId() {
@@ -27,11 +28,11 @@ public class Book {
         this.name = name;
     }
 
-    public boolean isOnHands() {
-        return onHands;
+    public String getType() {
+        return type;
     }
 
-    public void setOnHands(boolean onHands) {
-        this.onHands = onHands;
+    public void setType(String type) {
+        this.type = type;
     }
 }

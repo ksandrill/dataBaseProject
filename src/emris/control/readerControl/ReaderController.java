@@ -116,7 +116,7 @@ public class ReaderController extends ControllerHandler implements Initializable
 
     @FXML
     void backBtn() throws IOException {
-        changeScene("/emris/control/mainControl/main_frame.fxml");
+        backToMain();
     }
 
 

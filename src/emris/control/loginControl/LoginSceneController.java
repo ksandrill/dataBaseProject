@@ -45,7 +45,7 @@ public class LoginSceneController extends ControllerHandler {
     @FXML
     private void buttonClicked() throws IOException {
         session.createConnection(login.getText(), password.getText(), host.getText(), Integer.parseInt(port.getText()), sid.getText());
-        changeScene("/emris/control/mainControl/main_frame.fxml");
+        changeScene("/emris/control/mainControl/role_frame.fxml");
     }
 
     public void setSession(Session session) {

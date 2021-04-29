@@ -39,6 +39,8 @@ public class LibrarianController extends ControllerHandler implements Initializa
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         surnameColumn.setCellValueFactory(new PropertyValueFactory<>("surname"));
         libraryColumn.setCellValueFactory(new PropertyValueFactory<>("library"));
+
+
         ContextMenu cm = new ContextMenu();
         MenuItem mi1 = new MenuItem("удалить");
         mi1.setOnAction(event -> {
@@ -82,7 +84,7 @@ public class LibrarianController extends ControllerHandler implements Initializa
 
     @FXML
     void backBtn() throws IOException {
-        changeScene("/emris/control/mainControl/main_frame.fxml");
+        backToMain();
     }
 
     @FXML
