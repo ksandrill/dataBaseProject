@@ -2,15 +2,16 @@ package emris.control.loginControl;
 
 import emris.Session;
 import emris.control.ControllerHandler;
-import emris.control.mainControl.mainController;
+import emris.control.Role;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 //    private final String host = "84.237.50.81";
 //    private final int    port = 1521       ;
@@ -43,9 +44,46 @@ public class LoginSceneController extends ControllerHandler {
     private TextField host;
 
     @FXML
-    private void buttonClicked() throws IOException {
+    private void buttonClicked() throws IOException, SQLException {
         session.createConnection(login.getText(), password.getText(), host.getText(), Integer.parseInt(port.getText()), sid.getText());
-        changeScene("/emris/control/mainControl/role_frame.fxml");
+        ArrayList<String> roleList = getUserRoles();
+        changeScene(getRoleFxml(roleList));
+    }
+
+    private String getRoleFxml(ArrayList<String> roleList) {
+        String fxmlSource = "";
+        for (String curRole : roleList) {
+            if (curRole.equals("LIB_ADMIN")) {
+                role = Role.admin;
+                fxmlSource = "/emris/control/mainControl/main_frame.fxml";
+                return fxmlSource;
+            }
+            if (curRole.equals("LIB_MANAGER")) {
+                role = Role.manager;
+                fxmlSource = "/emris/control/mainControl/managerFrame.fxml";
+                return fxmlSource;
+            }
+            if (curRole.equals("LIB_LIBRARIAN")) {
+                role = Role.librarian;
+                fxmlSource = "/emris/control/mainControl/librarian_frame.fxml";
+                return fxmlSource;
+            }
+        }
+        return fxmlSource;
+
+
+    }
+
+    private ArrayList<String> getUserRoles() throws SQLException {
+        ArrayList<String> auxList = new ArrayList<>();
+        ResultSet ret = session.executeQuery("SELECT \"USER_ROLE_PRIVS\".\"GRANTED_ROLE\" FROM \"USER_ROLE_PRIVS\"");
+        while (ret.next()) {
+            String curRole = ret.getString("GRANTED_ROLE");
+            System.out.println(curRole);
+            auxList.add(curRole);
+
+        }
+        return auxList;
     }
 
     public void setSession(Session session) {
