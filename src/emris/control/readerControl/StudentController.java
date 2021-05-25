@@ -1,5 +1,6 @@
 package emris.control.readerControl;
 
+import emris.Constant;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
@@ -19,25 +20,20 @@ public class StudentController extends ReaderHandler {
     TextField group;
 
 
-
     @FXML
     void
-    addBtn() throws IOException {
-        String deleteProcedure = "begin \"create_student\"(?,?,?,?,?,?,?); end;";
-        try {
-            CallableStatement cs = session.getConnection().prepareCall(deleteProcedure);
-            cs.setString(1, name);
-            cs.setString(2, surname);
-            cs.setString(3, unniver.getText());
-            cs.setString(4, department.getText());
-            cs.setString(5, course.getText());
-            cs.setString(6, group.getText());
-            cs.setString(7, library);
-            cs.executeUpdate();
+    addBtn() throws IOException, SQLException {
+        String procedure = "begin" + Constant.adminName + ".\"create_student\"(?,?,?,?,?,?,?); end;";
+        CallableStatement cs = session.getConnection().prepareCall(procedure);
+        cs.setString(1, name);
+        cs.setString(2, surname);
+        cs.setString(3, unniver.getText());
+        cs.setString(4, department.getText());
+        cs.setString(5, course.getText());
+        cs.setString(6, group.getText());
+        cs.setString(7, library);
+        session.executeTrans(cs);
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
         returnToReader();
     }
 

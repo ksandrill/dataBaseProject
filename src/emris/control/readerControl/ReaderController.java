@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import emris.Constant;
 
 import java.io.IOException;
 import java.net.URL;
@@ -52,16 +53,12 @@ public class ReaderController extends ControllerHandler implements Initializable
         ContextMenu cm = new ContextMenu();
         MenuItem mi1 = new MenuItem("удалить");
         mi1.setOnAction(event -> {
-            Reader selectedReader = tableView.getSelectionModel().getSelectedItem();
-            String deleteProcedure = "begin \"delete_reader\"(?); end;";
             try {
-                CallableStatement cs = session.getConnection().prepareCall(deleteProcedure);
-                cs.setString(1, Integer.toString(selectedReader.getId()));
-                cs.executeUpdate();
-
+                deleteReader();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
+
             try {
                 refresh_table();
             } catch (SQLException throwables) {
@@ -95,8 +92,8 @@ public class ReaderController extends ControllerHandler implements Initializable
 
     private void refresh_table() throws SQLException {
         ArrayList<Reader> auxList = new ArrayList<>();
-        ResultSet ret = session.executeQuery("select \"reader\".\"id\", \"reader\".\"name\",\"reader\".\"surname\",\"reader\".\"library_id\" ,\"reader_role\".\"role\", \"library\".\"name\" as lib_name from \"reader\",\"reader_role\",\"library\"\n" +
-                "WHERE \"reader\".\"role_id\" = \"reader_role\".\"id\" and \"reader\".\"library_id\" = \"library\".\"id\"");
+        ResultSet ret = session.executeQuery("select" + Constant.adminName + ".\"reader\".\"id\"," + Constant.adminName + ".\"reader\".\"name\"," + Constant.adminName + ".\"reader\".\"surname\"," + Constant.adminName + ".\"reader\".\"library_id\"," + Constant.adminName + ".\"reader_role\".\"role\"," + Constant.adminName + ".\"library\".\"name\" as lib_name from" + Constant.adminName + ".\"reader\"," + Constant.adminName + ".\"reader_role\"," + Constant.adminName + ".\"library\"\n" +
+                "WHERE" + Constant.adminName + ".\"reader\".\"role_id\" =" + Constant.adminName + ".\"reader_role\".\"id\" and" + Constant.adminName + ".\"reader\".\"library_id\" =" + Constant.adminName + ".\"library\".\"id\"");
         while (ret.next()) {
             Reader reader = new Reader(ret.getInt("id"), ret.getString("name"), ret.getString("surname"), ret.getString("role"), null, 0, ret.getString("lib_name"));
             ////System.out.println(reader.getId() + reader.getName() +  reader.getSurname() +  reader.getRoleType());
@@ -119,5 +116,12 @@ public class ReaderController extends ControllerHandler implements Initializable
         backToMain();
     }
 
+    void deleteReader() throws SQLException {
+        Reader selectedReader = tableView.getSelectionModel().getSelectedItem();
+        String deleteProcedure = "begin" + Constant.adminName + ".\"delete_reader\"(?); end;";
+        CallableStatement cs = session.getConnection().prepareCall(deleteProcedure);
+        cs.setString(1, Integer.toString(selectedReader.getId()));
+        session.executeTrans(cs);
+    }
 
 }

@@ -1,5 +1,6 @@
 package emris.control.bookControl;
 
+import emris.Constant;
 import emris.control.ControllerHandler;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -30,7 +31,7 @@ public class addBookController extends ControllerHandler {
     @FXML
     void updateBox() throws SQLException {
         ArrayList<String> auxList = new ArrayList<>();
-        ResultSet ret = session.executeQuery("select \"book_type\".\"type\" as type_name from \"book_type\"");
+        ResultSet ret = session.executeQuery("select" + Constant.adminName + ".\"book_type\".\"type\" as type_name from" + Constant.adminName + ".\"book_type\"");
         while (ret.next()) {
             auxList.add(ret.getString("type_name"));
         }
@@ -40,19 +41,14 @@ public class addBookController extends ControllerHandler {
     }
 
     @FXML
-    void nextBtn() {
-        String deleteProcedure = "begin \"create_book\"(?,?,?); end;";
-        try {
-            CallableStatement cs = session.getConnection().prepareCall(deleteProcedure);
-            cs.setString(1, bookName.getText());
-            cs.setDate(2, Date.valueOf(dataPicker.getValue()));
-            cs.setString(3, (bookTypeBox.getSelectionModel().getSelectedItem()));
-            cs.executeUpdate();
-            cancelBtn();
-
-        } catch (SQLException | IOException throwables) {
-            throwables.printStackTrace();
-        }
+    void nextBtn() throws SQLException, IOException {
+        String procedure = "begin" + Constant.adminName + ".\"create_book\"(?,?,?); end;";
+        CallableStatement cs = session.getConnection().prepareCall(procedure);
+        cs.setString(1, bookName.getText());
+        cs.setDate(2, Date.valueOf(dataPicker.getValue()));
+        cs.setString(3, (bookTypeBox.getSelectionModel().getSelectedItem()));
+        session.executeTrans(cs);
+        cancelBtn();
 
 
     }

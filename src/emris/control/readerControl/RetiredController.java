@@ -1,5 +1,6 @@
 package emris.control.readerControl;
 
+import emris.Constant;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 
@@ -13,19 +14,14 @@ public class RetiredController extends ReaderHandler {
     DatePicker dataPicker;
 
     @FXML
-    void addBtn() throws IOException {
-        String deleteProcedure = "begin \"create_retired\"(?,?,?,?); end;";
-        try {
-            CallableStatement cs = session.getConnection().prepareCall(deleteProcedure);
-            cs.setString(1, name);
-            cs.setString(2, surname);
-            cs.setDate(3, Date.valueOf(dataPicker.getValue()));
-            cs.setString(4, library);
-            cs.executeUpdate();
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+    void addBtn() throws IOException, SQLException {
+        String procedure = "begin" + Constant.adminName + ".\"create_retired\"(?,?,?,?); end;";
+        CallableStatement cs = session.getConnection().prepareCall(procedure);
+        cs.setString(1, name);
+        cs.setString(2, surname);
+        cs.setDate(3, Date.valueOf(dataPicker.getValue()));
+        cs.setString(4, library);
+        session.executeTrans(cs);
         returnToReader();
 
     }

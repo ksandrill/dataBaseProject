@@ -1,5 +1,6 @@
 package emris.control.librarianControl;
 
+import emris.Constant;
 import emris.control.ControllerHandler;
 import emris.control.tableInfo.Librarian;
 import javafx.collections.FXCollections;
@@ -45,11 +46,11 @@ public class LibrarianController extends ControllerHandler implements Initializa
         MenuItem mi1 = new MenuItem("удалить");
         mi1.setOnAction(event -> {
             Librarian selectedLibrarian = tableView.getSelectionModel().getSelectedItem();
-            String deleteProcedure = "DELETE FROM   \"librarian\" WHERE \"librarian\".\"id\" = (?)";
+            String deleteProcedure = "DELETE FROM" + Constant.adminName + ".\"librarian\" WHERE" + Constant.adminName + ".\"librarian\".\"id\" = (?)";
             try {
                 CallableStatement cs = session.getConnection().prepareCall(deleteProcedure);
                 cs.setString(1, Integer.toString(selectedLibrarian.getId()));
-                cs.executeUpdate();
+                session.executeTrans(cs);
 
             } catch (SQLException throwables) {
                 throwables.printStackTrace();

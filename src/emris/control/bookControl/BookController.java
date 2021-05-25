@@ -1,5 +1,6 @@
 package emris.control.bookControl;
 
+import emris.Constant;
 import emris.control.ControllerHandler;
 import emris.control.tableInfo.Book;
 import emris.control.tableInfo.Librarian;
@@ -54,6 +55,15 @@ public class BookController extends ControllerHandler implements Initializable {
             }
         });
 
+        mi2.setOnAction(event -> {
+            try {
+                Book selectedBook = tableView.getSelectionModel().getSelectedItem();
+                System.out.println(selectedBook.getName());
+                changeScene("/emris/control/bookControl/composition_frame.fxml", selectedBook.getName(), selectedBook.getId());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
 
     }
@@ -72,7 +82,7 @@ public class BookController extends ControllerHandler implements Initializable {
     @FXML
     void refreshBtn() throws SQLException {
         ArrayList<Book> auxList = new ArrayList<>();
-        ResultSet ret = session.executeQuery("SELECT \"book\".\"id\", \"book\".\"name\", \"book_type\".\"type\" as b_type from \"book\", \"book_type\" WHERE \"book\".\"type_id\"  = \"book_type\".\"id\"");
+        ResultSet ret = session.executeQuery("SELECT" + Constant.adminName + ".\"book\".\"id\"," + Constant.adminName + ".\"book\".\"name\"," + Constant.adminName + ".\"book_type\".\"type\" as b_type from" + Constant.adminName + ".\"book\"," + Constant.adminName + ".\"book_type\" WHERE" + Constant.adminName + ".\"book\".\"type_id\"  =" + Constant.adminName + ".\"book_type\".\"id\"");
         while (ret.next()) {
             Book book = new Book(ret.getInt("id"), ret.getString("name"), ret.getString("b_type"));
             ////System.out.println(reader.getId() + reader.getName() +  reader.getSurname() +  reader.getRoleType());

@@ -13,20 +13,22 @@ public class Session {
     }
 
     private Connection connection = null;
-//    private final String host = "84.237.50.81";
+    //    private final String host = "84.237.50.81";
 //    private final int    port = 1521       ;
 //    private final String sid  = "XE"       ;
     private String url = null;
-    public Session(){
+
+    public Session() {
 
     }
-    public void createConnection(String user,String pwd, String host, int port, String sid){
+
+    public void createConnection(String user, String pwd, String host, int port, String sid) {
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver"); //Проверяем наличие JDBC драйвера для работы с БД
             url = String.format("jdbc:oracle:thin:@%s:%d:%s", host, port, sid);
             Locale def_locale = Locale.getDefault();
             Locale.setDefault(Locale.ENGLISH);
-            this.connection = DriverManager.getConnection(url,user,pwd);//соединениесБД
+            this.connection = DriverManager.getConnection(url, user, pwd);//соединениесБД
             Locale.setDefault(def_locale);
             System.out.println("Соединение с СУБД выполнено.");
         } catch (ClassNotFoundException e) {
@@ -40,7 +42,7 @@ public class Session {
 
 
     public void closeConnection() throws Exception {
-        if(connection != null) {
+        if (connection != null) {
             connection.close();
             System.out.println("Отключение от СУБД выполнено.");
         }
@@ -52,6 +54,21 @@ public class Session {
 
         return statement.executeQuery(query);
 
+    }
+
+    public Boolean executeTrans(CallableStatement transaction) throws SQLException {
+        connection.setAutoCommit(false);
+        try {
+            transaction.executeUpdate();
+            connection.commit();
+            return true;
+        } catch (SQLException throwables) {
+            connection.rollback();
+            throwables.printStackTrace();
+            return false;
+        } finally {
+            connection.setAutoCommit(true);
+        }
     }
 
 

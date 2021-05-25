@@ -1,5 +1,6 @@
 package emris.control.readerControl;
 
+import emris.Constant;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
@@ -14,23 +15,17 @@ public class ScientistController extends ReaderHandler {
     TextField institution;
 
     @FXML
-    void addBtn() throws IOException {
-        String deleteProcedure = "begin \"create_scientist\"(?,?,?,?,?); end;";
-        try {
-            CallableStatement cs = session.getConnection().prepareCall(deleteProcedure);
-            cs.setString(1, name);
-            cs.setString(2, surname);
-            cs.setString(3, subject.getText());
-            cs.setString(4, institution.getText());
-            cs.setString(5, library);
-            cs.executeUpdate();
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+    void addBtn() throws IOException, SQLException {
+        String deleteProcedure = "begin" + Constant.adminName + ".\"create_scientist\"(?,?,?,?,?); end;";
+        CallableStatement cs = session.getConnection().prepareCall(deleteProcedure);
+        cs.setString(1, name);
+        cs.setString(2, surname);
+        cs.setString(3, subject.getText());
+        cs.setString(4, institution.getText());
+        cs.setString(5, library);
+        session.executeTrans(cs);
         returnToReader();
     }
-
 
 
     @FXML

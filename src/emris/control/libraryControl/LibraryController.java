@@ -1,5 +1,6 @@
 package emris.control.libraryControl;
 
+import emris.Constant;
 import emris.control.ControllerHandler;
 import emris.control.tableInfo.Library;
 import javafx.collections.FXCollections;
@@ -52,7 +53,7 @@ public class LibraryController extends ControllerHandler implements Initializabl
 
     void refreshTable() throws SQLException {
         ArrayList<Library> auxList = new ArrayList<>();
-        ResultSet ret = session.executeQuery("select \"library\".\"id\", \"library\".\"name\",\"library\".\"addr\" from \"library\"\n");
+        ResultSet ret = session.executeQuery("select" + Constant.adminName + ".\"library\".\"id\"," + Constant.adminName + ".\"library\".\"name\"," + Constant.adminName + ".\"library\".\"addr\" from " + Constant.adminName + ".\"library\"\n");
         while (ret.next()) {
             auxList.add(new Library(ret.getInt("id"), ret.getString("name"), ret.getString("addr")));
 
@@ -73,11 +74,11 @@ public class LibraryController extends ControllerHandler implements Initializabl
         MenuItem mi1 = new MenuItem("удалить");
         mi1.setOnAction(event -> {
             Library selectedReader = tableView.getSelectionModel().getSelectedItem();
-            String insertStr = "DELETE FROM   \"library\" WHERE \"library\".\"id\" = ?";
+            String insertStr = "DELETE FROM" + Constant.adminName + ".\"library\" WHERE \"library\".\"id\" = ?";
             try {
                 CallableStatement cs = session.getConnection().prepareCall(insertStr);
                 cs.setInt(1, selectedReader.getId());
-                cs.executeUpdate();
+                session.executeTrans(cs);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }

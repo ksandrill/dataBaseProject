@@ -12,6 +12,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
+import emris.Constant;
 
 import java.io.IOException;
 import java.net.URL;
@@ -61,7 +62,7 @@ public class AddReaderController extends ControllerHandler implements Initializa
     @FXML
     void updateBox() throws SQLException {
         ArrayList<String> auxList = new ArrayList<>();
-        ResultSet ret = session.executeQuery("select \"library\".\"name\" as lib_name from \"library\"");
+        ResultSet ret = session.executeQuery("select" + Constant.adminName + ".\"library\".\"name\" as lib_name from" + Constant.adminName + ".\"library\"");
         while (ret.next()) {
             auxList.add(ret.getString("lib_name"));
         }
