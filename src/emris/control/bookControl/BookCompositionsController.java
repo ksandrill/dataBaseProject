@@ -2,7 +2,6 @@ package emris.control.bookControl;
 
 import emris.Constant;
 import emris.control.ControllerHandler;
-import emris.control.tableInfo.Book;
 import emris.control.tableInfo.Composition;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -51,7 +50,8 @@ public class BookCompositionsController extends ControllerHandler implements Ini
     }
 
     @FXML
-    void placeBtn() {
+    void placeBtn() throws IOException {
+        changeScene("/emris/control/bookControl/placement_frame.fxml", handledStr, handledInt);
 
     }
 

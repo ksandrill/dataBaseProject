@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emris.control.bookControl.PlacementController">
+  <children>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+         <children>
+            <ScrollPane layoutX="30.0" layoutY="25.0" prefHeight="276.0" prefWidth="578.0">
+               <content>
+                  <TableView fx:id="tableView" maxWidth="-Infinity" prefHeight="400.0" prefWidth="566.0">
+                     <columns>
+                        <TableColumn fx:id="idColumn" prefWidth="75.0" text="id" />
+                        <TableColumn fx:id="libraryColumn" prefWidth="83.0" text="библиотека" />
+                        <TableColumn fx:id="hallColumn" prefWidth="83.0" text="зал" />
+                        <TableColumn fx:id="rackColumn" prefWidth="83.0" text="стеллаж" />
+                        <TableColumn fx:id="shellColumn" prefWidth="83.0" text="полка" />
+                        <TableColumn fx:id="statusColumn" prefWidth="83.0" text="статус" />
+                     </columns>
+                  </TableView>
+               </content>
+            </ScrollPane>
+            <Label fx:id="BookName" layoutX="257.0" layoutY="5.0" prefHeight="20.0" prefWidth="124.0" text="label">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="149.0" layoutY="6.0" prefHeight="17.0" prefWidth="108.0" text="Издание:" />
+         </children>
+    </AnchorPane>
+      <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#refreshBtn" text="обновить" />
+            <Button mnemonicParsing="false" onAction="#addBtn" text="добавить " />
+            <Button mnemonicParsing="false" onAction="#backBtn" text="назад" />
+            <Button mnemonicParsing="false" onAction="#backToCompositions" prefHeight="25.0" prefWidth="128.0" text="произведения..." />
+         </children>
+         <padding>
+            <Insets top="20.0" />
+         </padding>
+      </HBox>
+  </children>
+</VBox>

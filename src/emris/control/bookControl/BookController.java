@@ -3,8 +3,6 @@ package emris.control.bookControl;
 import emris.Constant;
 import emris.control.ControllerHandler;
 import emris.control.tableInfo.Book;
-import emris.control.tableInfo.Librarian;
-import emris.control.tableInfo.Reader;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -52,6 +50,15 @@ public class BookController extends ControllerHandler implements Initializable {
         tableView.addEventHandler(MouseEvent.MOUSE_CLICKED, t -> {
             if (t.getButton() == MouseButton.SECONDARY) {
                 cm.show(tableView, t.getScreenX(), t.getScreenY());
+            }
+        });
+
+        mi3.setOnAction(event -> {
+            Book selectedBook = tableView.getSelectionModel().getSelectedItem();
+            try {
+                changeScene("/emris/control/bookControl/placement_frame.fxml", selectedBook.getName(), selectedBook.getId());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
 

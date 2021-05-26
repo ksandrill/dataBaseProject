@@ -68,6 +68,12 @@ public class LoginSceneController extends ControllerHandler {
                 fxmlSource = "/emris/control/mainControl/librarian_frame.fxml";
                 return fxmlSource;
             }
+
+            if (curRole.equals("LIB_READER")) {
+                role = Role.librarian;
+                fxmlSource = "/emris/control/mainControl/librarian_frame.fxml";
+                return fxmlSource;
+            }
         }
         return fxmlSource;
 
