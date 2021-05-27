@@ -28,6 +28,12 @@
                         <TextField fx:id="surname" />
                      </children>
                   </HBox>
+                  <HBox prefHeight="38.0" prefWidth="619.0" spacing="10.0">
+                     <children>
+                        <Label text="Пароль" />
+                        <TextField fx:id="password" />
+                     </children>
+                  </HBox>
                   <Label prefHeight="25.0" prefWidth="98.0" text="Род деятельности" />
                   <RadioButton fx:id="scholarR" mnemonicParsing="false" text="школьник" />
                   <RadioButton fx:id="studentR" mnemonicParsing="false" text="студент" />

@@ -35,6 +35,9 @@ public class WorkerController extends ReaderHandler {
         cs.setString(3, workplaceField.getText());
         cs.setString(4, library);
         session.executeTrans(cs);
+
+        createReaderUserDB();
+
         returnToReader();
     }
 

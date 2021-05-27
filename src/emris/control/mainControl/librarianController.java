@@ -16,4 +16,10 @@ public class librarianController extends ControllerHandler {
         changeScene("/emris/control/bookControl/book_frame.fxml");
 
     }
+
+    @FXML
+    void  goToOrders() throws IOException {
+        System.out.println("dafaq");
+        changeScene("/emris/control/users/lib_orders.fxml");
+    }
 }

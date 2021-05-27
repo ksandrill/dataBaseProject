@@ -70,7 +70,7 @@ public class PlacementController extends ControllerHandler implements Initializa
     void refreshBtn() throws SQLException {
         BookName.setText(handledStr);
         ArrayList<Placement> auxList = new ArrayList<>();
-        ResultSet ret = session.executeQuery("select \"book_placement\".\"id\" as \"b_id\", \"book_placement\".\"library_id\", \"book_placement\".\"hall_number\" as \"h_number\", \"book_placement\".\"rack\" as \"r_number\", \"book_placement\".\"shell\" as \"s_number\", \"book_placement\".\"status\" as \"stat\", \"book_placement\".\"book\", \"library\".\"id\", \"library\".\"name\" as \"lib_name\" from" + Constant.adminName + ".\"book_placement\"," + Constant.adminName + ".\"library\" where (\"library\".\"id\" = \"book_placement\".\"library_id\" and \"book_placement\".\"book\" = " + handledInt + ");");
+        ResultSet ret = session.executeQuery("select \"book_placement\".\"id\" as \"b_id\", \"book_placement\".\"library_id\", \"book_placement\".\"hall_number\" as \"h_number\", \"book_placement\".\"rack\" as \"r_number\", \"book_placement\".\"shell\" as \"s_number\", \"book_placement\".\"status\" as \"stat\", \"book_placement\".\"book\", \"library\".\"id\", \"library\".\"name\" as \"lib_name\" from " + Constant.adminName + ".\"book_placement\"," + Constant.adminName + ".\"library\" where (\"library\".\"id\" = \"book_placement\".\"library_id\" and \"book_placement\".\"book\" = " + handledInt + ")");
         while (ret.next()) {
             Placement book = new Placement(ret.getInt("b_id"), ret.getInt("r_number"), ret.getInt("s_number"), ret.getInt("h_number"), ret.getString("stat"), ret.getString("lib_name"));
             auxList.add(book);

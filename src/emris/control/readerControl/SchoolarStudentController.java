@@ -27,6 +27,9 @@ public class SchoolarStudentController extends ReaderHandler {
         cs.setString(5, school.getText());
         cs.setString(6, library);
         session.executeTrans(cs);
+
+        createReaderUserDB();
+
         returnToReader();
     }
 

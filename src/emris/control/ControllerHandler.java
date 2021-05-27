@@ -24,7 +24,7 @@ public abstract class ControllerHandler {
         ((ControllerHandler) controller).setSession(session);
         ((ControllerHandler) controller).setStage(stage);
         ((ControllerHandler) controller).setRole(role);
-        ;
+
         stage.setScene(scene);
         stage.show();
     }
@@ -84,9 +84,6 @@ public abstract class ControllerHandler {
                 break;
             case librarian:
                 fxml = "/emris/control/mainControl/librarian_frame.fxml";
-                break;
-            case manager:
-                fxml = "/emris/control/mainControl/managerFrame.fxml";
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + role);

@@ -22,6 +22,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
+            <Button layoutX="265.0" layoutY="151.0" mnemonicParsing="false" onAction="#goToOrders" prefHeight="25.0" prefWidth="107.0" text="заказы" />
       </children>
     </AnchorPane>
   </children>

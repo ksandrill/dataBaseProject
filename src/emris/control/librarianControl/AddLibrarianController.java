@@ -8,9 +8,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
-import java.sql.CallableStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class AddLibrarianController extends ControllerHandler {
@@ -18,6 +16,8 @@ public class AddLibrarianController extends ControllerHandler {
     TextField nameField;
     @FXML
     TextField surnameField;
+    @FXML
+    TextField password;
     @FXML
     ComboBox<String> libraryBox;
 
@@ -37,7 +37,31 @@ public class AddLibrarianController extends ControllerHandler {
         cs.executeUpdate();
         changeScene("/emris/control/librarianControl/librarian_frame.fxml");
 
+        ResultSet set = session.executeQuery("select \"id\" from " + Constant.adminName + ".\"librarian\" where rownum = 1 order by \"id\" desc");
+        int id = 0;
+        if (set.next())
+            id = set.getInt("id");
 
+        String createUser = "create user \"18208_LIB_" + id + "\" identified by \"" + password.getText() + "\"";
+        String grantUser = "grant create session to \"18208_LIB_" + id + "\" with admin option";
+        String grantRole = "grant lib_librarian to \"18208_LIB_" + id + "\" with admin option";
+
+        createDBData(createUser, grantUser, grantRole, session.getConnection());
+    }
+
+    public static void createDBData(String createUser, String grantUser, String grantRole, Connection connection) throws SQLException {
+        connection.setAutoCommit(false);
+        try (Statement st = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            System.out.println(createUser);
+            st.executeUpdate(createUser);
+            st.executeUpdate(grantUser);
+            st.executeUpdate(grantRole);
+            connection.commit();
+        } catch (Throwable e) {
+            connection.rollback();
+            e.printStackTrace();
+        }
+        connection.setAutoCommit(true);
     }
 
     @FXML

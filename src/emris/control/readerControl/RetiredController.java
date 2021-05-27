@@ -22,6 +22,9 @@ public class RetiredController extends ReaderHandler {
         cs.setDate(3, Date.valueOf(dataPicker.getValue()));
         cs.setString(4, library);
         session.executeTrans(cs);
+
+        createReaderUserDB();
+
         returnToReader();
 
     }

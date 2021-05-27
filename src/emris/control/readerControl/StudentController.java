@@ -34,6 +34,8 @@ public class StudentController extends ReaderHandler {
         cs.setString(7, library);
         session.executeTrans(cs);
 
+        createReaderUserDB();
+
         returnToReader();
     }
 

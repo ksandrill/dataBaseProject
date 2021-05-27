@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emris.control.readerControl.ReaderController">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emris.control.users.lib_orders_controller">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
          <children>
@@ -20,15 +20,16 @@
                   <TableView fx:id="tableView" maxWidth="-Infinity" prefHeight="400.0" prefWidth="566.0">
                     <columns>
                         <TableColumn fx:id="idColumn" minWidth="9.0" prefWidth="30.0" text="id" />
-                      <TableColumn fx:id="nameColumn" text="Имя" />
-                        <TableColumn fx:id="surnameColumn" prefWidth="82.0" text="Фамилия" />
-                        <TableColumn fx:id="roleType" prefWidth="112.0" text="Деятельность" />
-                        <TableColumn fx:id="library" prefWidth="106.0" text="Библиотека" />
+                      <TableColumn fx:id="bookIdColumn" text="id книги" />
+                        <TableColumn fx:id="readerIdColumn" prefWidth="82.0" text="id читателя" />
+                        <TableColumn fx:id="readerNameColumn" prefWidth="112.0" text="Читатель" />
+                        <TableColumn fx:id="bookNameColumn" prefWidth="115.0" text="Книга" />
+                        <TableColumn fx:id="statusColumn" prefWidth="115.0" text="Статус" />
                     </columns>
                   </TableView>
                </content>
             </ScrollPane>
-            <Label layoutX="215.0" layoutY="4.0" text="Список читателей библиотеки">
+            <Label layoutX="296.0" layoutY="4.0" text="Заказы">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -38,7 +39,6 @@
       <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
          <children>
             <Button mnemonicParsing="false" onAction="#refreshBtn" text="обновить" />
-            <Button mnemonicParsing="false" onAction="#createBtn" text="добавить читателя" />
             <Button mnemonicParsing="false" onAction="#backBtn" text="назад" />
          </children>
          <padding>

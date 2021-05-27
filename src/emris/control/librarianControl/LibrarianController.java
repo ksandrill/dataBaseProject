@@ -19,6 +19,7 @@ import java.net.URL;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -46,6 +47,7 @@ public class LibrarianController extends ControllerHandler implements Initializa
         MenuItem mi1 = new MenuItem("удалить");
         mi1.setOnAction(event -> {
             Librarian selectedLibrarian = tableView.getSelectionModel().getSelectedItem();
+
             String deleteProcedure = "DELETE FROM" + Constant.adminName + ".\"librarian\" WHERE" + Constant.adminName + ".\"librarian\".\"id\" = (?)";
             try {
                 CallableStatement cs = session.getConnection().prepareCall(deleteProcedure);
@@ -55,6 +57,21 @@ public class LibrarianController extends ControllerHandler implements Initializa
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
+
+            String dropUserDB = "drop user \"18208_LIB_" + selectedLibrarian.getId() + "\"";
+            try (Statement st = session.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+                st.executeUpdate(dropUserDB);
+                session.getConnection().commit();
+                System.out.println("delete " + selectedLibrarian.getId());
+            } catch (Throwable e) {
+                try {
+                    session.getConnection().rollback();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+
+
             try {
                 refreshTable();
             } catch (SQLException throwables) {

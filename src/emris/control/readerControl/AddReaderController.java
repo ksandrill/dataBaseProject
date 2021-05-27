@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -45,6 +46,8 @@ public class AddReaderController extends ControllerHandler implements Initializa
     TextField name;
     @FXML
     TextField surname;
+    @FXML
+    TextField password;
     @FXML
     RadioButton scientistR;
     @FXML
@@ -90,7 +93,9 @@ public class AddReaderController extends ControllerHandler implements Initializa
         readerTypeController.setStage(stage);
         readerTypeController.setName(name.getText());
         readerTypeController.setSurname(surname.getText());
+        readerTypeController.setPassword(password.getText());
         readerTypeController.setLibrary(libraryBox.getSelectionModel().getSelectedItem());
+        readerTypeController.setRole(role);
         stage.setScene(scene);
         stage.show();
 

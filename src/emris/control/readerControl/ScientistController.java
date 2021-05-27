@@ -24,6 +24,9 @@ public class ScientistController extends ReaderHandler {
         cs.setString(4, institution.getText());
         cs.setString(5, library);
         session.executeTrans(cs);
+
+        createReaderUserDB();
+
         returnToReader();
     }
 

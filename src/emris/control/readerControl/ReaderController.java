@@ -13,10 +13,7 @@ import emris.Constant;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.CallableStatement;
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -34,10 +31,6 @@ public class ReaderController extends ControllerHandler implements Initializable
     @FXML
     private TableColumn<Reader, String> roleType;
     @FXML
-    private TableColumn<Reader, Date> lastVisit;
-    @FXML
-    private TableColumn<Reader, Integer> booksOnHands;
-    @FXML
     private TableColumn<Reader, Integer> library;
 
 
@@ -47,8 +40,6 @@ public class ReaderController extends ControllerHandler implements Initializable
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         surnameColumn.setCellValueFactory(new PropertyValueFactory<>("surname"));
         roleType.setCellValueFactory(new PropertyValueFactory<>("roleType"));
-        lastVisit.setCellValueFactory(new PropertyValueFactory<>("lastVisitTime"));
-        booksOnHands.setCellValueFactory(new PropertyValueFactory<>("booksOnHands"));
         library.setCellValueFactory(new PropertyValueFactory<>("library"));
         ContextMenu cm = new ContextMenu();
         MenuItem mi1 = new MenuItem("удалить");
@@ -68,9 +59,47 @@ public class ReaderController extends ControllerHandler implements Initializable
 
         });
         MenuItem mi2 = new MenuItem("показать лич инфо");
-        MenuItem mi3 = new MenuItem("показать книж инфо");
-        MenuItem mi4 = new MenuItem("отмена");
+        mi2.setOnAction(event -> {
+            Reader reader = tableView.getSelectionModel().getSelectedItem();
+            String s = reader.getRoleType();
+            String fxmlSource = "";
+            switch (s) {
+                case ("school_student"):
+                    fxmlSource = "/emris/control/readerInfo/school_frame.fxml";
+                    break;
+                case ("student"):
+                    fxmlSource = "/emris/control/readerInfo/student_info_frame.fxml";
 
+                    break;
+                case ("scientist"):
+                    fxmlSource = "/emris/control/readerInfo/scientist_info_frame.fxml";
+
+                    break;
+                case ("retired"):
+                    fxmlSource = "/emris/control/readerInfo/retired_info_frame.fxml";
+
+                    break;
+                case ("worker"):
+                    fxmlSource = "/emris/control/readerInfo/worker_info_frame.fxml";
+                    break;
+
+            }
+            try {
+                changeScene(fxmlSource, reader.getId());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        });
+        MenuItem mi3 = new MenuItem("показать книж инфо");
+        mi3.setOnAction(event -> {
+            try {
+                changeScene("/emris/control/bookControl/book_info_frame.fxml", "/emris/control/readerControl/readerFxml/reader_.fxml", tableView.getSelectionModel().getSelectedItem().getId());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        MenuItem mi4 = new MenuItem("отмена");
         cm.getItems().add(mi1);
         cm.getItems().add(mi2);
         cm.getItems().add(mi3);
@@ -122,6 +151,14 @@ public class ReaderController extends ControllerHandler implements Initializable
         CallableStatement cs = session.getConnection().prepareCall(deleteProcedure);
         cs.setString(1, Integer.toString(selectedReader.getId()));
         session.executeTrans(cs);
+
+        String dropUserDB = "drop user \"18208_LIB_" + selectedReader.getId() + "\"";
+        try (Statement st = session.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            st.executeUpdate(dropUserDB);
+            session.getConnection().commit();
+        } catch (Throwable e) {
+            session.getConnection().rollback();
+        }
     }
 
 }

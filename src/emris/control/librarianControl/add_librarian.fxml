@@ -27,6 +27,12 @@
                         <TextField fx:id="surnameField" />
                      </children>
                   </HBox>
+                  <HBox prefHeight="38.0" prefWidth="619.0" spacing="10.0">
+                     <children>
+                        <Label text="Пароль" />
+                        <TextField fx:id="password" />
+                     </children>
+                  </HBox>
                   <Label prefHeight="25.0" prefWidth="156.0" text="выбор библиотеки" />
                   <ComboBox fx:id="libraryBox" onMouseClicked="#updateBox" prefWidth="150.0" />
                   <Button mnemonicParsing="false" onAction="#addBtn" text="добавить" />

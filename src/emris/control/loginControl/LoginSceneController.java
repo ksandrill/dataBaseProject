@@ -3,6 +3,7 @@ package emris.control.loginControl;
 import emris.Session;
 import emris.control.ControllerHandler;
 import emris.control.Role;
+import emris.control.users.IdHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -12,6 +13,8 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import static emris.util.StringUtils.strIsInteger;
 
 //    private final String host = "84.237.50.81";
 //    private final int    port = 1521       ;
@@ -45,7 +48,13 @@ public class LoginSceneController extends ControllerHandler {
 
     @FXML
     private void buttonClicked() throws IOException, SQLException {
-        session.createConnection(login.getText(), password.getText(), host.getText(), Integer.parseInt(port.getText()), sid.getText());
+        if (strIsInteger(login.getText())){
+            String log_id = login.getText().trim();
+            session.createConnection("18208_LIB_" + log_id, password.getText(), host.getText(), Integer.parseInt(port.getText()), sid.getText());
+            IdHandler.userId = log_id;
+        }
+        else
+            session.createConnection(login.getText(), password.getText(), host.getText(), Integer.parseInt(port.getText()), sid.getText());
         ArrayList<String> roleList = getUserRoles();
         changeScene(getRoleFxml(roleList));
     }
@@ -53,14 +62,10 @@ public class LoginSceneController extends ControllerHandler {
     private String getRoleFxml(ArrayList<String> roleList) {
         String fxmlSource = "";
         for (String curRole : roleList) {
+
             if (curRole.equals("LIB_ADMIN")) {
                 role = Role.admin;
                 fxmlSource = "/emris/control/mainControl/main_frame.fxml";
-                return fxmlSource;
-            }
-            if (curRole.equals("LIB_MANAGER")) {
-                role = Role.manager;
-                fxmlSource = "/emris/control/mainControl/managerFrame.fxml";
                 return fxmlSource;
             }
             if (curRole.equals("LIB_LIBRARIAN")) {
@@ -70,8 +75,8 @@ public class LoginSceneController extends ControllerHandler {
             }
 
             if (curRole.equals("LIB_READER")) {
-                role = Role.librarian;
-                fxmlSource = "/emris/control/mainControl/librarian_frame.fxml";
+                role = Role.reader;
+                fxmlSource = "/emris/control/users/userFrame.fxml";
                 return fxmlSource;
             }
         }
